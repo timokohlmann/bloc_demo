@@ -12,50 +12,80 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final myHomePageBloc = BlocProvider.of<MyHomePageBloc>(context);
-    return BlocBuilder<MyHomePageBloc, MyHomePageState>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            title: Text(title),
-          ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  'You have pushed the button this many times:',
-                ),
-                Text(
-                  '${state.counter}',
-                  // '${myHomePageBloc.state.counter}',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                const SizedBox(height: 70),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FloatingActionButton(
-                      hoverElevation: 20,
-                      onPressed: () {
-                        myHomePageBloc.add(MyHomePageCounterPressedMinus());
-                      },
-                      child: const Icon(Icons.remove),
-                    ),
-                    const SizedBox(width: 20),
-                    FloatingActionButton(
-                      onPressed: () {
-                        myHomePageBloc.add(MyHomePageCounterPressedPlus());
-                      },
-                      child: const Icon(Icons.add),
-                    ),
-                  ],
-                )
-              ],
-            ),
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(title),
+      ),
+      body: BlocBuilder<MyHomePageBloc, MyHomePageState>(
+          builder: (context, state) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                '${state.counter}',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const SizedBox(height: 70),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FloatingActionButton(
+                    hoverElevation: 20,
+                    onPressed: () {
+                      myHomePageBloc.add(MyHomePageCounterPressedMinus());
+                    },
+                    child: const Icon(Icons.remove),
+                  ),
+                  const SizedBox(width: 20),
+                  FloatingActionButton(
+                    onPressed: () {
+                      myHomePageBloc.add(MyHomePageCounterPressedPlus());
+                    },
+                    child: const Icon(Icons.add),
+                  ),
+                ],
+              ),
+              buildStateDependentWidget(state),
+            ],
           ),
         );
-      },
+      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          myHomePageBloc.add(MyHomePageStarted());
+        },
+        child: const Icon(Icons.label),
+      ),
     );
+  }
+
+  Widget buildStateDependentWidget(MyHomePageState state) {
+    if (state is EmployeesLoading) {
+      return const CircularProgressIndicator();
+    } else if (state is EmployeesLoadSuccess) {
+      return Expanded(
+        child: ListView.builder(
+          itemCount: state.employees.length,
+          itemBuilder: (context, index) {
+            final employee = state.employees[index];
+            return ListTile(
+              leading: const Icon(Icons.person),
+              title: Text(employee.name),
+              subtitle:
+                  Text('Age: ${employee.age}, Salary: ${employee.salary}'),
+            );
+          },
+        ),
+      );
+    } else if (state is EmployeesLoadFailure) {
+      return Text('Failed to load employees: ${state.error}');
+    }
+    return Text('Press the refresh button to load employees');
   }
 }

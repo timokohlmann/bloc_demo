@@ -1,4 +1,5 @@
 import 'package:bloc_demo/modules/homepage/bloc/home_bloc.dart';
+import 'package:bloc_demo/modules/homepage/bloc/home_event.dart';
 import 'package:bloc_demo/modules/homepage/presentation/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: BlocProvider(
-        create: (context) => MyHomePageBloc(), //..add(MyHomePageStarted),
+        create: (context) => MyHomePageBloc()..add(MyHomePageStarted()),
         child: const MyHomePage(
           title: 'Flutter Bloc Demo',
         ),
