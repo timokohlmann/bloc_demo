@@ -5,24 +5,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 class MyHomePageBloc extends Bloc<MyHomePageEvent, MyHomePageState> {
-  MyHomePageBloc() : super(MyHomePageState()) {
+  MyHomePageBloc(this.albumRepository) : super(MyHomePageState()) {
     on<MyHomePageStarted>((_onStarted));
     on<MyHomePageCounterPressedPlus>((_incrementCounter));
     on<MyHomePageCounterPressedMinus>((_decrementCounter));
   }
-
-  late EmployeeRepository employeeRepository;
+  final AlbumRepository albumRepository;
 
   Future<void> _onStarted(
     MyHomePageStarted event,
     Emitter<MyHomePageState> emit,
   ) async {
-    emit(EmployeesLoading());
+    emit(AlbumsLoading());
     try {
-      final employees = await employeeRepository.fetchEmployees();
-      emit(EmployeesLoadSuccess(employees));
+      final albums = await albumRepository.fetchAlbums();
+      emit(AlbumsLoadSuccess(albums));
     } catch (error) {
-      emit(EmployeesLoadFailure(error.toString()));
+      emit(AlbumsLoadFailure(error.toString()));
     }
   }
 

@@ -11,18 +11,18 @@ class MyHomePageState {
   }
 }
 
-class EmployeesInitial extends MyHomePageState {}
+class AlbumsInitial extends MyHomePageState {}
 
-class EmployeesLoading extends MyHomePageState {}
+class AlbumsLoading extends MyHomePageState {}
 
-class EmployeesLoadSuccess extends MyHomePageState {
-  final List<Employee> employees;
+class AlbumsLoadSuccess extends MyHomePageState {
+  final List<Album> albums;
 
-  EmployeesLoadSuccess(this.employees);
+  AlbumsLoadSuccess(this.albums);
 }
 
-class EmployeesLoadFailure extends MyHomePageState {
+class AlbumsLoadFailure extends MyHomePageState {
   final String error;
 
-  EmployeesLoadFailure(this.error);
+  AlbumsLoadFailure(this.error);
 }

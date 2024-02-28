@@ -19,73 +19,79 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
       body: BlocBuilder<MyHomePageBloc, MyHomePageState>(
-          builder: (context, state) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '${state.counter}',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 70),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FloatingActionButton(
-                    hoverElevation: 20,
-                    onPressed: () {
-                      myHomePageBloc.add(MyHomePageCounterPressedMinus());
-                    },
-                    child: const Icon(Icons.remove),
-                  ),
-                  const SizedBox(width: 20),
-                  FloatingActionButton(
-                    onPressed: () {
-                      myHomePageBloc.add(MyHomePageCounterPressedPlus());
-                    },
-                    child: const Icon(Icons.add),
-                  ),
-                ],
-              ),
-              buildStateDependentWidget(state),
-            ],
-          ),
-        );
-      }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          myHomePageBloc.add(MyHomePageStarted());
+        builder: (context, state) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'You have pushed the button this many times:',
+                ),
+                Text(
+                  '${state.counter}',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                const SizedBox(height: 70),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FloatingActionButton(
+                      hoverElevation: 20,
+                      onPressed: () {
+                        myHomePageBloc.add(MyHomePageCounterPressedMinus());
+                      },
+                      child: const Icon(Icons.remove),
+                    ),
+                    const SizedBox(width: 20),
+                    FloatingActionButton(
+                      onPressed: () {
+                        myHomePageBloc.add(MyHomePageCounterPressedPlus());
+                      },
+                      child: const Icon(Icons.add),
+                    ),
+                  ],
+                ),
+                Expanded(
+                    child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(30),
+                      child: buildStateDependentWidget(state),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        myHomePageBloc.add(MyHomePageStarted());
+                      },
+                      child: const Icon(Icons.label),
+                    ),
+                  ],
+                )),
+              ],
+            ),
+          );
         },
-        child: const Icon(Icons.label),
       ),
     );
   }
 
   Widget buildStateDependentWidget(MyHomePageState state) {
-    if (state is EmployeesLoading) {
+    if (state is AlbumsLoading) {
       return const CircularProgressIndicator();
-    } else if (state is EmployeesLoadSuccess) {
+    } else if (state is AlbumsLoadSuccess) {
       return Expanded(
         child: ListView.builder(
-          itemCount: state.employees.length,
+          itemCount: state.albums.length,
           itemBuilder: (context, index) {
-            final employee = state.employees[index];
+            final album = state.albums[index];
             return ListTile(
-              leading: const Icon(Icons.person),
-              title: Text(employee.name),
-              subtitle:
-                  Text('Age: ${employee.age}, Salary: ${employee.salary}'),
-            );
+                title: Text(album.title),
+                subtitle: Text('Album-ID: ${album.id}'));
           },
         ),
       );
-    } else if (state is EmployeesLoadFailure) {
-      return Text('Failed to load employees: ${state.error}');
+    } else if (state is AlbumsLoadFailure) {
+      return Text('Failed to load Albums: ${state.error}');
     }
-    return Text('Press the refresh button to load employees');
+    return Text('Press the refresh button to load Albums');
   }
 }

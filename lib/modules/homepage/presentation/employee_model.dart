@@ -1,26 +1,19 @@
-class Employee {
+class Album {
+  final int userId;
   final int id;
-  final String name;
-  final int age;
-  final int salary;
+  final String title;
 
-  const Employee({
+  const Album({
+    required this.userId,
     required this.id,
-    required this.name,
-    required this.age,
-    required this.salary,
+    required this.title,
   });
 
-  factory Employee.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {
-        'id': int id,
-        'name': String name,
-        'age': int age,
-        'salary': int salary,
-      } =>
-        Employee(id: id, name: name, age: age, salary: salary),
-      _ => throw const FormatException('Failed to load employee data'),
-    };
+  factory Album.fromJson(Map<String, dynamic> json) {
+    return Album(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
+    );
   }
 }
