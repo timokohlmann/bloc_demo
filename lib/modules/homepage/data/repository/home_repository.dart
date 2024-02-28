@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bloc_demo/modules/homepage/presentation/employee_model.dart';
+import 'package:bloc_demo/modules/homepage/presentation/album_model.dart';
 import 'package:http/http.dart' as http;
 
 class AlbumRepository {

@@ -1,4 +1,4 @@
-import 'package:bloc_demo/modules/homepage/presentation/employee_model.dart';
+import 'package:bloc_demo/modules/homepage/presentation/album_model.dart';
 
 class MyHomePageState {
   final int counter;

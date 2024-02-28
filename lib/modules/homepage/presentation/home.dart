@@ -52,20 +52,17 @@ class MyHomePage extends StatelessWidget {
                   ],
                 ),
                 Expanded(
-                    child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(30),
-                      child: buildStateDependentWidget(state),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        myHomePageBloc.add(MyHomePageStarted());
-                      },
-                      child: const Icon(Icons.label),
-                    ),
-                  ],
-                )),
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: buildStateDependentWidget(state),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    myHomePageBloc.add(MyHomePageStarted());
+                  },
+                  child: const Icon(Icons.label),
+                ),
               ],
             ),
           );
