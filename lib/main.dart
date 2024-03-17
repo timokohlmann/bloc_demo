@@ -1,14 +1,18 @@
-import 'package:bloc_demo/bloc/MyHomePage_bloc.dart';
-import 'package:bloc_demo/presentation/MyHomePage.dart';
+import 'package:bloc_demo/modules/homepage/bloc/home_bloc.dart';
+import 'package:bloc_demo/modules/homepage/bloc/home_event.dart';
+import 'package:bloc_demo/modules/homepage/data/repository/home_repository.dart';
+import 'package:bloc_demo/modules/homepage/presentation/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final AlbumRepository albumRepository = AlbumRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: BlocProvider(
-        create: (context) => MyHomePageBloc(),
+        create: (context) =>
+            MyHomePageBloc(albumRepository)..add(MyHomePageStarted()),
         child: const MyHomePage(
           title: 'Flutter Bloc Demo',
         ),
